@@ -1,0 +1,20 @@
+[{			
+	id: "000321022",		
+	year: null,		
+	name: "32号棟1022号室",		
+	shikikin: null,		
+	requirement: null,		
+	madori: "https://sumai.r6.ur-net.go.jp//chintai/recruit/ArrNormal/80/80258/0000032/JyM2/RA/Image/80_258_0-00-0032_JyM2_RA_01_00003.gif",		
+	rent: "86,600円",		
+	rent_normal: "",		
+	rent_normal_css: null,		
+	commonfee: "（4,520円）",		
+	commonfee_sp: "共益費：4,520円",		
+	status: "2LDK / 65&#13217; / 10階",		
+	type: "2LDK",		
+	floorspace: "65&#13217;",		
+	floor: "10階",		
+	urlDetail: "/chintai/kansai/hyogo/80_2580_room.html?JKSS=000321022",		
+	urlDetail_sp: "/chintai/sp/kansai/hyogo/80_2580_room.html?JKSS=000321022",		
+	feature: null		
+}]			
