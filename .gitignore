@@ -86,9 +86,6 @@ macos/Flutter/flutter_export_environment.sh
 # Windows related
 windows/flutter/ephemeral/
 
-# Web related
-/web/index.html
-
 # Coverage
 coverage/
 
