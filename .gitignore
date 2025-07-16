@@ -10,6 +10,7 @@
 .svn/
 migrate_working_dir/
 devtools_options.yaml
+desiredFileName.txt
 
 # IntelliJ related
 *.iml
