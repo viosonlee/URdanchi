@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="512" cy="512" r="450" fill="#2196F3"/>
+  
+  <!-- Building 1 -->
+  <rect x="200" y="300" width="120" height="400" fill="#FFFFFF"/>
+  <!-- Windows for building 1 -->
+  <rect x="220" y="340" width="20" height="20" fill="#2196F3"/>
+  <rect x="260" y="340" width="20" height="20" fill="#2196F3"/>
+  <rect x="220" y="380" width="20" height="20" fill="#2196F3"/>
+  <rect x="260" y="380" width="20" height="20" fill="#2196F3"/>
+  <rect x="220" y="420" width="20" height="20" fill="#2196F3"/>
+  <rect x="260" y="420" width="20" height="20" fill="#2196F3"/>
+  <rect x="220" y="460" width="20" height="20" fill="#2196F3"/>
+  <rect x="260" y="460" width="20" height="20" fill="#2196F3"/>
+  
+  <!-- Building 2 (center, taller) -->
+  <rect x="380" y="250" width="120" height="450" fill="#FFFFFF"/>
+  <!-- Windows for building 2 -->
+  <rect x="400" y="290" width="20" height="20" fill="#2196F3"/>
+  <rect x="440" y="290" width="20" height="20" fill="#2196F3"/>
+  <rect x="400" y="330" width="20" height="20" fill="#2196F3"/>
+  <rect x="440" y="330" width="20" height="20" fill="#2196F3"/>
+  <rect x="400" y="370" width="20" height="20" fill="#2196F3"/>
+  <rect x="440" y="370" width="20" height="20" fill="#2196F3"/>
+  <rect x="400" y="410" width="20" height="20" fill="#2196F3"/>
+  <rect x="440" y="410" width="20" height="20" fill="#2196F3"/>
+  <rect x="400" y="450" width="20" height="20" fill="#2196F3"/>
+  <rect x="440" y="450" width="20" height="20" fill="#2196F3"/>
+  
+  <!-- Building 3 -->
+  <rect x="560" y="320" width="120" height="380" fill="#FFFFFF"/>
+  <!-- Windows for building 3 -->
+  <rect x="580" y="360" width="20" height="20" fill="#2196F3"/>
+  <rect x="620" y="360" width="20" height="20" fill="#2196F3"/>
+  <rect x="580" y="400" width="20" height="20" fill="#2196F3"/>
+  <rect x="620" y="400" width="20" height="20" fill="#2196F3"/>
+  <rect x="580" y="440" width="20" height="20" fill="#2196F3"/>
+  <rect x="620" y="440" width="20" height="20" fill="#2196F3"/>
+  
+  <!-- Location pin -->
+  <circle cx="450" cy="750" r="40" fill="#F44336"/>
+  <polygon points="450,790 435,775 465,775" fill="#F44336"/>
+  <circle cx="450" cy="750" r="15" fill="#FFFFFF"/>
+</svg>

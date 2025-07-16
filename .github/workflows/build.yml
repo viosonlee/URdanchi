@@ -1,0 +1,290 @@
+name: Build and Release
+
+on:
+  push:
+    branches: [ master, main ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Get dependencies
+        run: flutter pub get
+        
+      - name: Generate localizations
+        run: flutter gen-l10n
+        
+      - name: Build APK
+        run: flutter build apk --release
+        
+      - name: Build App Bundle
+        run: flutter build appbundle --release
+        
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Get dependencies
+        run: flutter pub get
+        
+      - name: Generate localizations
+        run: flutter gen-l10n
+        
+      - name: Build iOS (no codesign)
+        run: flutter build ios --release --no-codesign
+        
+      - name: Create IPA
+        run: |
+          mkdir -p build/ios/ipa
+          cp -r build/ios/iphoneos/Runner.app build/ios/ipa/
+          cd build/ios/ipa
+          zip -r ../../../danchi_map_app.ipa .
+          
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: danchi_map_app.ipa
+
+  build-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Get dependencies
+        run: flutter pub get
+        
+      - name: Generate localizations
+        run: flutter gen-l10n
+        
+      - name: Build Web
+        run: flutter build web --release
+        
+      - name: Upload Web Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: build/web/
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Get dependencies
+        run: flutter pub get
+        
+      - name: Generate localizations
+        run: flutter gen-l10n
+        
+      - name: Build Windows
+        run: flutter build windows --release
+        
+      - name: Create Windows ZIP
+        run: |
+          Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath danchi_map_app-windows.zip
+          
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: danchi_map_app-windows.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+          
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          
+      - name: Get dependencies
+        run: flutter pub get
+        
+      - name: Generate localizations
+        run: flutter gen-l10n
+        
+      - name: Build Linux
+        run: flutter build linux --release
+        
+      - name: Create Linux TAR
+        run: |
+          cd build/linux/x64/release/bundle
+          tar -czf ../../../../../danchi_map_app-linux.tar.gz .
+          
+      - name: Upload Linux Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
+          path: danchi_map_app-linux.tar.gz
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-android, build-ios, build-web, build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        
+      - name: Generate release notes
+        id: release_notes
+        run: |
+          echo "## 🚀 Release Notes" > release_notes.md
+          echo "" >> release_notes.md
+          echo "### 📦 Available Downloads" >> release_notes.md
+          echo "- **Android APK**: For Android devices" >> release_notes.md
+          echo "- **Android AAB**: For Google Play Store" >> release_notes.md
+          echo "- **iOS IPA**: For iOS devices (requires signing)" >> release_notes.md
+          echo "- **Windows ZIP**: For Windows 10/11" >> release_notes.md
+          echo "- **Linux TAR.GZ**: For Linux distributions" >> release_notes.md
+          echo "- **Web Build**: For web deployment" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "### 🔧 Installation" >> release_notes.md
+          echo "1. Download the appropriate file for your platform" >> release_notes.md
+          echo "2. Follow the installation instructions in the README" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "### 📋 What's Changed" >> release_notes.md
+          echo "- Bug fixes and performance improvements" >> release_notes.md
+          echo "- UI/UX enhancements" >> release_notes.md
+          echo "" >> release_notes.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$(git describe --tags --abbrev=0 HEAD~1)...${GITHUB_REF#refs/tags/}" >> release_notes.md
+        
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            android-apk/app-release.apk
+            android-aab/app-release.aab
+            ios-ipa/danchi_map_app.ipa
+            windows-build/danchi_map_app-windows.zip
+            linux-build/danchi_map_app-linux.tar.gz
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  auto-release:
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    needs: [build-android, build-ios, build-web, build-windows, build-linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Get next version
+        id: version
+        run: |
+          # Get the latest tag
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          echo "Latest tag: $LATEST_TAG"
+          
+          # Extract version numbers
+          VERSION=${LATEST_TAG#v}
+          IFS='.' read -ra VERSION_PARTS <<< "$VERSION"
+          MAJOR=${VERSION_PARTS[0]:-0}
+          MINOR=${VERSION_PARTS[1]:-0}
+          PATCH=${VERSION_PARTS[2]:-0}
+          
+          # Increment patch version
+          PATCH=$((PATCH + 1))
+          NEW_VERSION="v$MAJOR.$MINOR.$PATCH"
+          
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        
+      - name: Generate auto-release notes
+        id: auto_release_notes
+        run: |
+          echo "## 🚀 Auto Release ${{ steps.version.outputs.version }}" > auto_release_notes.md
+          echo "" >> auto_release_notes.md
+          echo "### 📦 Available Downloads" >> auto_release_notes.md
+          echo "- **Android APK**: \`app-release.apk\` - For Android devices" >> auto_release_notes.md
+          echo "- **Android AAB**: \`app-release.aab\` - For Google Play Store" >> auto_release_notes.md
+          echo "- **iOS IPA**: \`danchi_map_app.ipa\` - For iOS devices (requires signing)" >> auto_release_notes.md
+          echo "- **Windows ZIP**: \`danchi_map_app-windows.zip\` - For Windows 10/11" >> auto_release_notes.md
+          echo "- **Linux TAR.GZ**: \`danchi_map_app-linux.tar.gz\` - For Linux distributions" >> auto_release_notes.md
+          echo "" >> auto_release_notes.md
+          echo "### 📋 Recent Changes" >> auto_release_notes.md
+          echo "This is an automated release based on the latest commits to the main branch." >> auto_release_notes.md
+          echo "" >> auto_release_notes.md
+          echo "**Build Date**: $(date -u +'%Y-%m-%d %H:%M:%S UTC')" >> auto_release_notes.md
+          echo "**Commit**: ${{ github.sha }}" >> auto_release_notes.md
+        
+      - name: Create Auto Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: "Auto Release ${{ steps.version.outputs.version }}"
+          files: |
+            android-apk/app-release.apk
+            android-aab/app-release.aab
+            ios-ipa/danchi_map_app.ipa
+            windows-build/danchi_map_app-windows.zip
+            linux-build/danchi_map_app-linux.tar.gz
+          body_path: auto_release_notes.md
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

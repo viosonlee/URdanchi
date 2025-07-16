@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../l10n/app_localizations.dart';
 
 class ImageViewer extends StatefulWidget {
   final String imageUrl;
   final String? heroTag;
 
-  const ImageViewer({
-    Key? key,
-    required this.imageUrl,
-    this.heroTag,
-  }) : super(key: key);
+  const ImageViewer({super.key, required this.imageUrl, this.heroTag});
 
   static void show(BuildContext context, String imageUrl, {String? heroTag}) {
     Navigator.of(context).push(
@@ -111,15 +108,15 @@ class _ImageViewerState extends State<ImageViewer>
           ),
         );
       },
-      errorBuilder: (context, error, stackTrace) => const Center(
+      errorBuilder: (context, error, stackTrace) => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error, color: Colors.white, size: 64),
-            SizedBox(height: 16),
+            const Icon(Icons.error, color: Colors.white, size: 64),
+            const SizedBox(height: 16),
             Text(
-              '图片加载失败',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              AppLocalizations.of(context)!.imageLoadFailed,
+              style: const TextStyle(color: Colors.white, fontSize: 16),
             ),
           ],
         ),
@@ -203,16 +200,16 @@ class _ImageViewerState extends State<ImageViewer>
               bottom: MediaQuery.of(context).padding.bottom + 20,
               left: 0,
               right: 0,
-              child: const Center(
+              child: Center(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  decoration: const BoxDecoration(
                     color: Colors.black54,
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
                   child: Text(
-                    '双指缩放 • 点击返回',
-                    style: TextStyle(
+                    AppLocalizations.of(context)!.pinchToZoomTapToReturn,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                     ),

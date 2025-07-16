@@ -19,6 +19,15 @@ class DanchiMarker {
       roomCount: json['roomCount'] ?? 0,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'lat': lat,
+      'lng': lng,
+      'roomCount': roomCount,
+    };
+  }
 }
 
 class Room {
@@ -31,7 +40,8 @@ class Room {
   final String floorspace;
   final String floor;
   final String? image; // 房间图片
-  final String? link;  // 详情页链接
+  final String? link;  // PC端详情页链接
+  final String? linkSp; // 手机端详情页链接
 
   Room({
     required this.id,
@@ -44,6 +54,7 @@ class Room {
     required this.floor,
     this.image,
     this.link,
+    this.linkSp,
   });
 
   factory Room.fromJson(Map<String, dynamic> json) {
@@ -58,7 +69,24 @@ class Room {
       floor: json['floor'] as String,
       image: json['image'] as String?,
       link: json['urlDetail'] as String? ?? json['link'] as String?,
+      linkSp: json['link_sp'] as String?,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'madori': madori,
+      'rent': rent,
+      'commonfee': commonfee,
+      'type': type,
+      'floorspace': floorspace,
+      'floor': floor,
+      'image': image,
+      'link': link,
+      'link_sp': linkSp,
+    };
   }
 }
 
@@ -68,6 +96,7 @@ class DanchiInfo {
   final double lat;
   final double lng;
   final String? link;
+  final String? linkSp;
   final String? image;
   final String? access;
   final String? address;
@@ -84,6 +113,7 @@ class DanchiInfo {
     required this.lat,
     required this.lng,
     this.link,
+    this.linkSp,
     this.image,
     this.access,
     this.address,
@@ -103,6 +133,7 @@ class DanchiInfo {
       lat: (json['lat'] as num).toDouble(),
       lng: (json['lng'] as num).toDouble(),
       link: json['link'] as String?,
+      linkSp: json['link_sp'] as String?,
       image: json['image'] as String?,
       access: json['access'] as String?,
       address: json['address'] as String?,
@@ -113,5 +144,25 @@ class DanchiInfo {
       roomCountAll: json['roomCountAll'] as int?,
       rooms: roomsJson.map((e) => Room.fromJson(e)).toList(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'lat': lat,
+      'lng': lng,
+      'link': link,
+      'link_sp': linkSp,
+      'image': image,
+      'access': access,
+      'address': address,
+      'rent': rent,
+      'type': type,
+      'deposit': deposit,
+      'requirement': requirement,
+      'roomCountAll': roomCountAll,
+      'room': rooms.map((room) => room.toJson()).toList(),
+    };
   }
 }

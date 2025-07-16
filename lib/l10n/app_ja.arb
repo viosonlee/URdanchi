@@ -1,0 +1,182 @@
+{
+  "appTitle": "UR団地マップ",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "home": "ホーム",
+  "@home": {
+    "description": "Home screen title"
+  },
+  "danchiDetails": "団地詳細",  "@danchiDetails": {
+    "description": "Danchi details screen title"
+  },
+  "address": "住所",
+  "@address": {
+    "description": "Address label"
+  },
+  "access": "アクセス",
+  "@access": {
+    "description": "Access information label"
+  },
+  "rent": "家賃",
+  "@rent": {
+    "description": "Rent information label"
+  },
+  "type": "タイプ",
+  "@type": {
+    "description": "Type information label"
+  },
+  "clickToViewMap": "地図を見る",
+  "@clickToViewMap": {
+    "description": "Click to view map instruction"
+  },
+  "danchiDetailsPage": "団地詳細ページ",
+  "@danchiDetailsPage": {
+    "description": "Danchi details page link text"
+  },
+  "clickToViewOfficialDetails": "公式詳細を見る",
+  "@clickToViewOfficialDetails": {
+    "description": "Click to view official details instruction"
+  },
+  "availableRoomsCount": "利用可能な部屋数: {count}",
+  "@availableRoomsCount": {
+    "description": "Available rooms count",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "54"
+      }
+    }
+  },
+  "noRoomsAvailable": "利用可能な部屋がありません",
+  "@noRoomsAvailable": {
+    "description": "No rooms available message"
+  },
+  "pleaseTryLaterOrCheckOtherDanchi": "後でもう一度試すか、他の団地をご確認ください",
+  "@pleaseTryLaterOrCheckOtherDanchi": {
+    "description": "Try later or check other danchi message"
+  },
+  "allRoomsLoaded": "すべての部屋が読み込まれました。",
+  "@allRoomsLoaded": {
+    "description": "All rooms loaded message"
+  },
+  "failedToLoadDanchiInfo": "団地情報の読み込みに失敗しました: {error}",
+  "@failedToLoadDanchiInfo": {
+    "description": "Failed to load danchi info error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "failedToLoadRooms": "部屋の読み込みに失敗しました: {error}",
+  "@failedToLoadRooms": {
+    "description": "Failed to load rooms error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "cannotOpenMapApp": "地図アプリを開けません",
+  "@cannotOpenMapApp": {
+    "description": "Cannot open map app error message"
+  },
+  "failedToOpenMap": "地図を開くのに失敗しました: {error}",
+  "@failedToOpenMap": {
+    "description": "Failed to open map error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "No app available"
+      }
+    }
+  },
+  "cannotOpenLink": "リンクを開けません: {link}",
+  "@cannotOpenLink": {
+    "description": "Cannot open link error message",
+    "placeholders": {
+      "link": {
+        "type": "String",
+        "example": "https://example.com"
+      }
+    }
+  },
+  "failedToLoadMarkers": "マーカーの読み込みに失敗しました: {error}",
+  "@failedToLoadMarkers": {
+    "description": "Failed to load markers error message",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "commonFee": "共益費: {fee}",
+  "@commonFee": {
+    "description": "Common fee label",
+    "placeholders": {
+      "fee": {
+        "type": "String",
+        "example": "4,520円"
+      }
+    }
+  },
+  "cacheSettings": "キャッシュ設定",
+  "cacheStatistics": "キャッシュ統計",
+  "memoryCachedTiles": "メモリキャッシュタイル",
+  "diskCachedTiles": "ディスクキャッシュタイル",
+  "diskCacheSize": "ディスクキャッシュサイズ",
+  "cacheManagement": "キャッシュ管理",
+  "clearCache": "キャッシュをクリア",
+  "refreshStats": "統計を更新",
+  "cacheInfo": "キャッシュ情報",
+  "cacheDescription": "地図タイルがキャッシュされ、読み込み性能が向上します。メモリキャッシュ（100タイル）は即座にアクセスでき、ディスクキャッシュ（1GB、30日間）はアプリの再起動後も保持され、弱いネットワーク環境でのより良い体験を提供します。",
+  "confirmClearCache": "キャッシュをクリア",
+  "clearCacheWarning": "すべてのキャッシュされた地図タイルが削除されます。よろしいですか？",
+  "cancel": "キャンセル",
+  "clear": "クリア",
+  "cacheCleared": "キャッシュが正常にクリアされました",
+  "newRooms": "新着部屋",
+  "newRoom": "新着",
+  "newRoomsAvailable": "新しい部屋があります！",
+  "newRoomsFound": "件の新着部屋",
+  "newRoomsCount": "新着部屋数",
+  "floorPlan": "間取り図",
+  "viewDetails": "詳細を見る",
+  "area": "面積",
+  "floor": "階数",
+  "cannotOpenUrl": "このURLを開くことができません",
+  "linkOpenError": "リンクを開く際にエラーが発生しました",
+  "unsubscribed": "団地の購読を解除しました",
+  "subscribed": "団地を購読しました",
+  "operationFailed": "操作に失敗しました: {error}",
+  "urDanchiDetailsPage": "UR団地詳細ページ",
+  "imageLoadFailed": "画像の読み込みに失敗しました",
+  "pinchToZoomTapToReturn": "ピンチでズーム • タップで戻る",
+  "mapTypeSelector": "地図タイプ",
+  "mapTypeStandard": "標準",
+  "mapTypeStandardDesc": "標準地図レイヤー",
+  "mapTypeCycle": "サイクリング",
+  "mapTypeCycleDesc": "自転車ルートに特化した地図",
+  "mapTypeHumanitarian": "人道支援",
+  "mapTypeHumanitarianDesc": "緊急時の資源と人道支援情報",
+  "mapTypeTransport": "交通",
+  "mapTypeTransportDesc": "公共交通機関に特化した地図",
+  "mapTypeTerrain": "地形",
+  "mapTypeTerrainDesc": "標高詳細を含む地形図",
+  "mapTypeSatellite": "衛星",
+  "mapTypeSatelliteDesc": "衛星画像ビュー",
+  "mapTypeHybrid": "ハイブリッド",
+  "mapTypeHybridDesc": "衛星写真と道路のオーバーレイ",
+  "failedToLoadCacheStats": "キャッシュ統計の読み込みに失敗しました",
+  "settings": "設定",
+  "aboutApp": "アプリについて",
+  "appName": "UR団地マップ",
+  "appDescription": "Flutter製の日本UR（都市再生機構）団地閲覧アプリ。インタラクティブな地図での団地表示、詳細情報（間取り、家賃、設備）、多言語対応、検索、お気に入り機能を提供。本アプリで使用されている団地データは、日本UR都市再生機構の公開情報に基づいています。",
+  "disclaimerTitle": "免責事項",
+  "disclaimerContent": "本プロジェクトは学習・交流目的のみであり、商用利用は意図していません。団地情報は参考用であり、実際の賃貸条件はUR公式情報をご確認ください。",
+  "githubLinkTitle": "GitHubリンク"
+}
