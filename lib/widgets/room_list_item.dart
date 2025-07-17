@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/danchi.dart';
@@ -9,11 +8,7 @@ class RoomListItem extends StatelessWidget {
   final Room room;
   final bool isNewRoom;
 
-  const RoomListItem({
-    super.key,
-    required this.room,
-    this.isNewRoom = false,
-  });
+  const RoomListItem({super.key, required this.room, this.isNewRoom = false});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +48,7 @@ class RoomListItem extends StatelessWidget {
                   ),
                 ),
               ),
-            
+
             // 房间头部区域
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,7 +95,7 @@ class RoomListItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                
+
                 // 房间详细信息
                 Expanded(
                   child: Column(
@@ -150,14 +145,14 @@ class RoomListItem extends StatelessWidget {
                 ),
               ],
             ),
-            
+
             // 操作按钮 - 仅显示详细链接按钮
             const SizedBox(height: 12),
             if (room.link != null && room.link!.isNotEmpty)
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
-                  onPressed: () => _openDetailLink(context, room.link!),
+                  onPressed: () => _openDetailLink(context, room),
                   icon: const Icon(Icons.open_in_new, size: 16),
                   label: Text(AppLocalizations.of(context)!.viewDetails),
                   style: ElevatedButton.styleFrom(
@@ -187,18 +182,12 @@ class RoomListItem extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             '$label: ',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
           ),
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
             ),
           ),
         ],
@@ -206,17 +195,26 @@ class RoomListItem extends StatelessWidget {
     );
   }
 
-  Future<void> _openDetailLink(BuildContext context, String url) async {
+  Future<void> _openDetailLink(BuildContext context, Room room) async {
     try {
-      // 处理相对URL，添加基础URL
-      String fullUrl = url;
-      if (!url.startsWith('http')) {
-        fullUrl = 'https://www.ur-net.go.jp$url';
+      String targetLink;
+      if (Theme.of(context).platform == TargetPlatform.android ||
+          Theme.of(context).platform == TargetPlatform.iOS) {
+        // 移动端优先使用 linkSp
+        targetLink = room.linkSp ?? room.link ?? "";
+      } else {
+        // PC端使用 link
+        targetLink = room.link ?? "";
       }
-      
-      
+
+      // 处理相对URL，添加基础URL
+      String fullUrl = targetLink;
+      if (!targetLink.startsWith('http')) {
+        fullUrl = 'https://www.ur-net.go.jp$targetLink';
+      }
+
       final uri = Uri.parse(fullUrl);
-      
+
       if (await canLaunchUrl(uri)) {
         await launchUrl(uri, mode: LaunchMode.externalApplication);
       } else {
@@ -228,7 +226,7 @@ class RoomListItem extends StatelessWidget {
       _showErrorMessage(context, AppLocalizations.of(context)!.linkOpenError);
     }
   }
-  
+
   void _showErrorMessage(BuildContext context, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -268,18 +266,14 @@ class RoomListItem extends StatelessWidget {
         },
       );
     }
-    
+
     return _buildPlaceholder();
   }
 
   Widget _buildPlaceholder() {
     return Container(
       color: Colors.grey.shade200,
-      child: const Icon(
-        Icons.home,
-        color: Colors.grey,
-        size: 24,
-      ),
+      child: const Icon(Icons.home, color: Colors.grey, size: 24),
     );
   }
 }
